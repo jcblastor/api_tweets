@@ -17,7 +17,7 @@ func (r *userRepository) GetUserByEmailOrUsername(ctx context.Context, email, us
 	row := r.db.QueryRowContext(ctx, query, email, username)
 	var result model.UserModel
 
-	err := row.Scan(&result.Id, &result.UserName, &result.Email, &result.Password, &result.CreatedAt, result.UpdatedAt)
+	err := row.Scan(&result.Id, &result.UserName, &result.Email, &result.Password, &result.CreatedAt, &result.UpdatedAt)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil
