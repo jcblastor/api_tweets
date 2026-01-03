@@ -3,9 +3,11 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jcblastor/api_tweets/internal/config"
+	"github.com/jcblastor/api_tweets/pkg/internalsql"
 )
 
 func main() {
@@ -15,8 +17,19 @@ func main() {
 		log.Fatal(err)
 	}
 
+	_, err = internalsql.ConnectMySQL(cfg)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
+
+	r.GET("/check-health", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "it's works",
+		})
+	})
 
 	server := fmt.Sprintf("127.0.0.1:%s", cfg.Port)
 	r.Run(server)

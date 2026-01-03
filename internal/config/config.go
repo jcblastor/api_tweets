@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -23,6 +24,9 @@ func LoadConfig() (*Config, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to load .env file %v", err)
 	}
+
+	log.Println("config loaded")
+
 	return &Config{
 		Port:           os.Getenv("PORT"),
 		DBUrlMigration: os.Getenv("DATABASE_URL"),
