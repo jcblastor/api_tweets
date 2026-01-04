@@ -11,4 +11,13 @@ type (
 		CreatedAt time.Time
 		UpdatedAt time.Time
 	}
+
+	RefresTokenModel struct {
+		Id           int64
+		UserId       int64
+		RefreshToken string
+		ExpiredAt    time.Time
+		CreatedAt    time.Time
+		UpdatedAt    time.Time
+	}
 )

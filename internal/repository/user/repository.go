@@ -3,6 +3,7 @@ package user
 import (
 	"context"
 	"database/sql"
+	"time"
 
 	"github.com/jcblastor/api_tweets/internal/model"
 )
@@ -10,6 +11,8 @@ import (
 type UserRepository interface {
 	GetUserByEmailOrUsername(ctx context.Context, email, username string) (*model.UserModel, error)
 	CreateUser(ctx context.Context, model *model.UserModel) (int64, error)
+	GetRefreshToken(ctx context.Context, userId int64, now time.Time) (*model.RefresTokenModel, error)
+	StoreRefreshToken(ctx context.Context, model *model.RefresTokenModel) error
 }
 
 type userRepository struct {
