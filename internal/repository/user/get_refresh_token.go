@@ -18,7 +18,7 @@ func (r *userRepository) GetRefreshToken(ctx context.Context, userId int64, now 
 	row := r.db.QueryRowContext(ctx, query, userId, now)
 	var result model.RefresTokenModel
 
-	err := row.Scan(&result.Id, &result.UserId, &result.RefreshToken, &result.CreatedAt, &result.UpdatedAt)
+	err := row.Scan(&result.Id, &result.UserId, &result.RefreshToken, &result.ExpiredAt)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil

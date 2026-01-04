@@ -3,6 +3,7 @@ package user
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
+	"github.com/jcblastor/api_tweets/internal/middleware"
 	"github.com/jcblastor/api_tweets/internal/service/user"
 )
 
@@ -20,8 +21,12 @@ func NewHandler(api *gin.Engine, validate *validator.Validate, userService user.
 	}
 }
 
-func (h *Handler) RouteList() {
+func (h *Handler) RouteList(secretKey string) {
 	authRoute := h.api.Group("/auth")
 	authRoute.POST("/register", h.Register)
 	authRoute.POST("/login", h.Login)
+
+	refreshRoute := h.api.Group("/auth")
+	refreshRoute.Use(middleware.AuthRefreshTokenMiddleware(secretKey))
+	refreshRoute.POST("/refresh", h.RefreshToken)
 }
